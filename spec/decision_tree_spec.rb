@@ -14,4 +14,8 @@ describe DecisionTree do
   it "should calculate current entropy correctly" do
     @test_decision_tree.calculate_current_entropy.should == 1
   end
+  
+  it "should calculate the entropy remainder correctly" do
+    @test_decision_tree.calculate_entropy_remainder(:patrons, @dataset_reader.entries ).round(3).should == 0.459
+  end
 end
