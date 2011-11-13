@@ -16,7 +16,14 @@ class DecisionTree
   end
 
   def calculate_current_entropy
-   nil
+    partitions = @dataset.entries.group_by do |entry|
+      entry[:class]
+    end
+    -partitions.values.inject(0.0) do |sum, partition|
+      probability = partition.length.to_f / @dataset.entries.length.to_f
+      entropy = probability * Math.log2(probability)
+      sum += entropy
+    end
   end
   
 end

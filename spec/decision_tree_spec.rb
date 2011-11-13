@@ -12,6 +12,6 @@ describe DecisionTree do
   end
 
   it "should calculate current entropy correctly" do
-    @test_decision_tree.calculate_current_entropy.should == 0.5
+    @test_decision_tree.calculate_current_entropy.should == 1
   end
 end
