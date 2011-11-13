@@ -44,8 +44,9 @@ class DecisionTree
   
   def best_attribute( entries )
     @dataset.attributes.keys.inject(0.0) do |best, attribute_name|
-      information_gain = calculate_information_gain(attribute_name, entries)  
-      best = information_gain if best < information_gain
+      information_gain_current = calculate_information_gain(attribute_name, entries)  
+      information_gain_best = calculate_information_gain(best, entries)
+      information_gain_current > information_gain_best ? attribute_name : best
     end
   end
 
