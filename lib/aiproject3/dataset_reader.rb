@@ -56,4 +56,10 @@ class DatasetReader
       :wait_estimate => ['10', '30', '60', 'more']}
     @classes = ['yes', 'no']
   end
+
+  def remove_attribute( attribute )
+    @entries.each do |entry|
+      entry[:attributes].delete(attribute)
+    end
+  end
 end

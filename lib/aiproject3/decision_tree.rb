@@ -17,6 +17,12 @@ class DecisionTree
       sum += probability * Math.log2(probability)
     end
   end
+  
+  def determine_uniformity( entries )
+    entries.inject(entries.first[:class]) do |memo, entry|
+      memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
+    end
+  end
 
   def partition_on_class( entries )
     entries.group_by do |entry|

@@ -26,4 +26,10 @@ describe DecisionTree do
   it "should choose the best attribute to split on" do
     @test_decision_tree.best_attribute(@dataset_reader.entries).should == :patrons
   end
+
+  it "should be able to detect when a partition has a uniform outcome" do
+    entries = @dataset_reader.entries
+    none_entries = @test_decision_tree.partition_on_attribute(:patrons, entries)['none']
+    @test_decision_tree.determine_uniformity(none_entries).should_not == nil
+  end
 end

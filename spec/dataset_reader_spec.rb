@@ -39,17 +39,21 @@ describe DatasetReader do
   end
 
   it "should read attribute names and values" do
-   @attributes.should == @attributes #sanity check
-   @test_reader.attributes.should == @attributes
+    @test_reader.attributes.should == @attributes
   end
 
   it "should read the proper decision classes" do
-    @classes.should == @classes #sanity check
     @test_reader.classes.should == @classes
   end
 
   it "should contain the correct entries" do
-    @first_entry.should == @first_entry #sanity check
+    @test_reader.entries.first.should == @first_entry
+  end
+
+  it "should be able to return its entries with an attribute deleted" do
+    @test_reader.remove_attribute(:patrons)
+    @first_entry[:attributes].delete(:patrons)
+    
     @test_reader.entries.first.should == @first_entry
   end
 end
