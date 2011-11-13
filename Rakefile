@@ -1,19 +1,33 @@
 #!/usr/bin/env rake
 
-task :default => :exec do
+
+task :fetch_data do |t, args|
 end
 
-task :exec => 'car.data' do
-  sh "ruby lib/AIProject3.rb"
+namespace "git" do
+  task :push do
+    sh "git add -A"
+    sh 'git commit -m "' + Time.now.inspect + '"'
+    sh 'git push origin master'
+  end
 end
 
-directory 'data'
-file 'car.data' => 'data' do
-  sh 'curl archive.ics.uci.edu/ml/machine-learning-databases/car/car.data > data/car.data'
+namespace "test" do 
+  task :run_all do
+  end
 end
 
-task :push do
-  sh 'git add lib/*'
-  sh 'git commit -m "Automatic commit at ' + Time.now.inspect + '"'
-  sh 'git push origin master'
+namespace "exec" do
+  task :alternate do |t, args|
+    
+  end
+  task :default => 'car.data' do
+    
+  end
+
+  directory 'data'
+  file 'car.data' => 'data' do
+    sh 'curl archive.ics.uci.edu/ml/machine-learning-databases/car/car.data > data/car.data'
+  end
 end
+
