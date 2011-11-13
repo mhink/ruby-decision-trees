@@ -18,4 +18,8 @@ describe DecisionTree do
   it "should calculate the entropy remainder correctly" do
     @test_decision_tree.calculate_entropy_remainder(:patrons, @dataset_reader.entries ).round(3).should == 0.459
   end
+
+  it "should calculate the information gain correctly" do
+    @test_decision_tree.calculate_information_gain(:patrons, @dataset_reader.entries).round(3).should == 0.541
+  end
 end

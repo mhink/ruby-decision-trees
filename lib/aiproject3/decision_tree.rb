@@ -38,4 +38,8 @@ class DecisionTree
     end
   end
 
+  def calculate_information_gain( attribute, entries )
+    calculate_entropy(entries) - calculate_entropy_remainder(attribute, entries)
+  end
+
 end
