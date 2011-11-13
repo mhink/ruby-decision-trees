@@ -7,7 +7,7 @@ end
 namespace "git" do
   task :push do
     sh "git add -A"
-    sh 'git commit -m "' + Time.now.inspect + '"'
+    sh 'git commit -m "Autocommit using rake git:push made at ' + Time.now.inspect + '"'
     sh 'git push origin master'
   end
 end
