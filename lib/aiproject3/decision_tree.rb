@@ -41,5 +41,12 @@ class DecisionTree
   def calculate_information_gain( attribute, entries )
     calculate_entropy(entries) - calculate_entropy_remainder(attribute, entries)
   end
+  
+  def best_attribute( entries )
+    @dataset.attributes.keys.inject(0.0) do |best, attribute_name|
+      information_gain = calculate_information_gain(attribute_name, entries)  
+      best = information_gain if best < information_gain
+    end
+  end
 
 end

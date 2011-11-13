@@ -22,4 +22,8 @@ describe DecisionTree do
   it "should calculate the information gain correctly" do
     @test_decision_tree.calculate_information_gain(:patrons, @dataset_reader.entries).round(3).should == 0.541
   end
+
+  it "should choose the best attribute to split on" do
+    @test_decision_tree.best_attribute(@dataset_reader.entries).should == :patrons
+  end
 end

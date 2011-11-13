@@ -2,16 +2,16 @@ class DatasetReader
   def initialize ( data_filename, training_percent, testing=false )
     data = File.open(data_filename)
     
-    @attrs = {}
+    @attributes = {}
     @classes = []
     @entries = []
 
-    self.quick_test_attrs_load if testing
-    self.quick_attrs_load if not testing
+    self.quick_test_attributes_load if testing
+    self.quick_attributes_load if not testing
 
     data.each_line do |line|
       entry = {:attributes => {}, :class=>line.split(',').last}
-      line.split(',').zip(@attrs.keys).each do |attr, attrHash|
+      line.split(',').zip(@attributes.keys).each do |attr, attrHash|
         entry[:attributes][attrHash] = attr if not attrHash.nil? 
         entry[:class] = attr.chomp if attrHash.nil?
       end
@@ -19,8 +19,8 @@ class DatasetReader
     end
   end
 
-  def attrs
-    @attrs
+  def attributes
+    @attributes
   end
 
   def classes
@@ -31,8 +31,8 @@ class DatasetReader
     @entries
   end
 
-  def quick_attrs_load
-    @attrs = {
+  def quick_attributes_load
+    @attributes = {
       :buying => ['vhigh', 'high', 'med', 'low'],
       :maint => ['vhigh', 'high', 'med', 'low'],
       :doors => ['2', '3', '4', '5more'],
@@ -42,8 +42,8 @@ class DatasetReader
     @classes = ['unacc', 'acc', 'good', 'vgood']
   end 
 
-  def quick_test_attrs_load
-    @attrs = {
+  def quick_test_attributes_load
+    @attributes = {
       :alternate => ['yes', 'no'], 
       :bar => ['yes', 'no'], 
       :weekend => ['yes', 'no'], 

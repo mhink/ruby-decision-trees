@@ -4,7 +4,7 @@ require 'aiproject3/dataset_reader'
 describe DatasetReader do
 
   before(:each) do
-    @attrs = {
+    @attributes = {
       :alternate => ['yes', 'no'], 
       :bar => ['yes', 'no'], 
       :weekend => ['yes', 'no'], 
@@ -39,8 +39,8 @@ describe DatasetReader do
   end
 
   it "should read attribute names and values" do
-   @attrs.should == @attrs #sanity check
-   @test_reader.attrs.should == @attrs
+   @attributes.should == @attributes #sanity check
+   @test_reader.attributes.should == @attributes
   end
 
   it "should read the proper decision classes" do
