@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/spec_helper'
-require 'aiproject3/dataset_reader'
+require 'aiproject3/dataset'
 require 'aiproject3/decision_tree'
 
 describe DecisionTree do
   before(:each) do
      spec_directory = File.dirname(__FILE__)
-     @dataset_reader = DatasetReader.new(
+     @dataset = DatasetReader.new(
       (spec_directory + '/testcases/testcase.data'),
       20, true)
-     @test_decision_tree = DecisionTree.new(@dataset_reader)
+     @test_decision_tree = DecisionTree.new(@dataset)
   end
 
   it "should calculate current entropy correctly" do
@@ -16,15 +16,15 @@ describe DecisionTree do
   end
   
   it "should calculate the entropy remainder correctly" do
-    @test_decision_tree.calculate_entropy_remainder(:patrons, @dataset_reader.entries ).round(3).should == 0.459
+    @test_decision_tree.calculate_entropy_remainder(:patrons).round(3).should == 0.459
   end
 
   it "should calculate the information gain correctly" do
-    @test_decision_tree.calculate_information_gain(:patrons, @dataset_reader.entries).round(3).should == 0.541
+    @test_decision_tree.calculate_information_gain(:patrons).round(3).should == 0.541
   end
 
   it "should choose the best attribute to split on" do
-    @test_decision_tree.best_attribute(@dataset_reader.entries).should == :patrons
+    @test_decision_tree.best_attribute.should == :patrons
   end
 
   it "should be able to detect when a partition has a uniform outcome" do
