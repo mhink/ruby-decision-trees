@@ -2,31 +2,32 @@ class Dataset
 
   attr_reader :attributes, :classes, :entries
 
-  def initialize ( dataset=nil, data_filename=nil, testing=false, dataset_attributes={}, dataset_classes=[], dataset_entries=[])
-    
-    if not dataset.nil? then
+  def initialize ( args ) 
+    if not args[:dataset].nil? then
       #copy another Dataset
+      dataset = args[:dataset]
       @attributes, @classes, @entries = dataset.attributes, dataset.classes, dataset.entries
 
-    elsif not data_filename.nil? then
+    elsif not args[:data_filename].nil? then
       #load data from file
 
-      testing ? quick_test_attributes_load : quick_attributes_load
+      args[:testing] ? quick_test_attributes_load : quick_attributes_load
+      @entries = []
       
-      data = File.open.data_filename
+      data = File.open(args[:data_filename])
       data.each_line do |line|
         entry = { :attributes => {}, :class=>line.split( ',' ).last }
         line.split( ',' ).zip( @attributes.keys ).each do |attr, attrHash|
           entry[:attributes][attrHash] = attr if not attrHash.nil? 
           entry[:class] = attr.chomp if attrHash.nil?
         end
-        entries.push(entry)
+        @entries.push(entry)
       end
     end
     
-    @attributes = dataset_attributes if not dataset_attributes.empty?
-    @classes    = dataset_classes    if not dataset_classes.empty?
-    @entries    = dataset_entries    if not dataset_entries.empty?
+    @attributes = args[:dataset_attributes] if not args[:dataset_attributes].nil?
+    @classes    = args[:dataset_classes]    if not args[:dataset_classes].nil?
+    @entries    = args[:dataset_entries]    if not args[:dataset_entries].nil?
 
   end
 

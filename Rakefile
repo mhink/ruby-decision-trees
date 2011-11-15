@@ -1,5 +1,8 @@
 #!/usr/bin/env rake
 
+task :exec => "exec:default" do
+end
+
 namespace "git" do
   task :push do
     sh "git add -A"
@@ -13,7 +16,10 @@ namespace "exec" do
     
   end
   task :default => 'car.data' do
-    
+    sh 'ruby ./lib/aiproject3.rb /data/car.data'
+  end
+  task :test_data do
+    sh 'ruby ./lib/aiproject3.rb /spec/testcases/testcase.data'
   end
 
   directory 'data'
@@ -22,6 +28,5 @@ namespace "exec" do
   end
 end
 
-task :test do
-  sh 'rspec spec'
+task :test => "exec:test_data" do
 end

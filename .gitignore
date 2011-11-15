@@ -3,3 +3,4 @@ bin/*
 Gemfile.lock
 test/*
 *.swp
+*.swo

@@ -1,28 +1,49 @@
 require File.dirname(__FILE__) + '/dataset'
+require 'pp'
 
 class DecisionTree
   
-  def initialize ( dataset=nil, data_filename='', plurality_value=nil, testing=false )
-
+  def initialize ( args ) 
+    puts "(#{args[:parent_id]} => (#{args[:parent_attr]} => #{args[:my_value]})) : #{self.object_id.to_s}"
+    #dataset 
+    #data_filename 
+    #plurality_value 
+    #testing 
+   
     @children        = []
-    @dataset         = dataset         || Dataset.new(:data_filename => data_filename, :testing=>testing)
-    @plurality_value = plurality_value || determine_plurality_value
+    @dataset         = args[:dataset] || Dataset.new(
+                        :data_filename => args[:data_filename], 
+                        :testing       => args[:testing])
+    @plurality_value = args[:plurality_value] || determine_plurality_value
+
     
     generate_children if not uniform_classes? 
   end
 
   def determine_plurality_value
     partition_on_class.inject(0) do |best, partition|
-      best = partition if partition.length > best   
+      best = partition.length if partition.length > best   
     end
   end
   
   def generate_children
-    partition_on_attribute(best_attribute).each do |partition|
+    current_best_attribute = best_attribute
+    partition_on_attribute(current_best_attribute).values.each do |partition|
+      my_value = partition.first[:attributes][current_best_attribute]
+      remove_attribute(current_best_attribute, partition)
+      child_attributes = @dataset.attributes
+      child_attributes.delete(current_best_attribute)
       child_dataset = Dataset.new(
-        :dataset            => @dataset,
+        :dataset_classes    => @dataset.classes,
+        :dataset_attributes => child_attributes,
         :dataset_entries    => partition )
-      @children.push(DecisionTree.new(child_dataset, @plurality_value))
+      @children.push(
+        DecisionTree.new(
+          :dataset => child_dataset, 
+          :plurality_value => @plurality_value,
+          :parent_id => self.object_id.to_s,
+          :parent_attr => current_best_attribute,
+          :my_value => my_value) )
     end
   end
   
@@ -42,6 +63,9 @@ class DecisionTree
     @dataset.attributes.keys.inject do |best, attribute_name|
       information_gain_current = calculate_information_gain(attribute_name)  
       information_gain_best = calculate_information_gain(best)
+      puts "#{attribute_name.to_s} infogain: #{information_gain_current}"
+      puts "#{best.to_s} infogain: #{information_gain_best}"
+      STDIN.gets
       information_gain_current > information_gain_best ? attribute_name : best
     end
   end
@@ -52,7 +76,7 @@ class DecisionTree
   
   def calculate_entropy
     -partition_on_class.values.inject(0.0) do |sum, partition|
-      probability = partition.length.to_f / entries.length.to_f
+      probability = partition.length.to_f / @dataset.entries.length.to_f
       sum += probability * Math.log2(probability)
     end
   end 
@@ -66,10 +90,14 @@ class DecisionTree
   def calculate_entropy_remainder( attribute )
     partition_on_attribute(attribute).values.inject(0.0) do |sum, partition|
       ratio = partition.length.to_f / @dataset.entries.length.to_f
-      partition_dataset = Dataset.
-      entropy = calculate_entropy(partition)
+      entropy = calculate_entropy
       sum += ratio * entropy
     end
   end
-
+  
+  def remove_attribute(attribute, partition)
+    partition.each do |entry|
+      entry[:attributes].delete(attribute)
+    end
+  end
 end
