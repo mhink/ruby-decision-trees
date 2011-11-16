@@ -28,5 +28,6 @@ namespace "exec" do
   end
 end
 
-task :test => "exec:test_data" do
+task :test do
+  sh 'rspec spec'
 end
