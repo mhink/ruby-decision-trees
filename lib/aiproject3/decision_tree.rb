@@ -2,6 +2,8 @@ require File.dirname(__FILE__) + '/dataset'
 require 'pp'
 
 class DecisionTree
+
+  attr_reader :children
   
   def initialize ( args ) 
     puts "(#{args[:parent_id]} => (#{args[:parent_attr]} => #{args[:my_value]})) : #{self.object_id.to_s}"
@@ -17,7 +19,7 @@ class DecisionTree
     @plurality_value = args[:plurality_value] || determine_plurality_value
 
     
-    generate_children if not uniform_classes? 
+    #generate_children if not uniform_classes? 
   end
 
   def determine_plurality_value
@@ -49,6 +51,8 @@ class DecisionTree
   
   def uniform_classes?
     @dataset.entries.inject(@dataset.entries.first[:class]) do |memo, entry|
+      puts "memo: #{memo.to_s}"
+      puts "entry[:class] : #{entry[:class].to_s}"
       memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
     end
   end
@@ -63,26 +67,26 @@ class DecisionTree
     @dataset.attributes.keys.inject do |best, attribute_name|
       information_gain_current = calculate_information_gain(attribute_name)  
       information_gain_best = calculate_information_gain(best)
-      puts "#{attribute_name.to_s} infogain: #{information_gain_current}"
-      puts "#{best.to_s} infogain: #{information_gain_best}"
-      STDIN.gets
       information_gain_current > information_gain_best ? attribute_name : best
     end
   end
 
   def calculate_information_gain( attribute )
+    puts "Calculate information gain " + attribute.to_s
+    puts "  " + calculate_entropy.to_s
+    puts "  " + calculate_entropy_remainder(attribute).to_s
     calculate_entropy - calculate_entropy_remainder(attribute)
   end
   
-  def calculate_entropy
-    -partition_on_class.values.inject(0.0) do |sum, partition|
-      probability = partition.length.to_f / @dataset.entries.length.to_f
+  def calculate_entropy( entries = @dataset.entries )
+    -partition_on_class( entries ).values.inject(0.0) do |sum, partition|
+      probability = partition.length.to_f / entries.length.to_f
       sum += probability * Math.log2(probability)
     end
   end 
   
-  def partition_on_class
-    @dataset.entries.group_by do |entry|
+  def partition_on_class( entries = @dataset.entries )
+    entries.group_by do |entry|
       entry[:class]
     end
   end
@@ -90,7 +94,7 @@ class DecisionTree
   def calculate_entropy_remainder( attribute )
     partition_on_attribute(attribute).values.inject(0.0) do |sum, partition|
       ratio = partition.length.to_f / @dataset.entries.length.to_f
-      entropy = calculate_entropy
+      entropy = calculate_entropy( partition )
       sum += ratio * entropy
     end
   end

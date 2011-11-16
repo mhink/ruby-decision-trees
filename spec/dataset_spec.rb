@@ -34,8 +34,8 @@ describe Dataset do
 
     spec_directory = File.dirname(__FILE__)
     @test_dataset = Dataset.new(
-      (spec_directory + '/testcases/testcase.data'),
-      20, true)
+      :data_filename => "./spec/testcases/testcase.data",
+      :testing       => true )
   end
 
   it "should read attribute names and values" do

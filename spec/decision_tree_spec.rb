@@ -3,16 +3,14 @@ require 'aiproject3/dataset'
 require 'aiproject3/decision_tree'
 
 describe DecisionTree do
+
   before(:each) do
-     spec_directory = File.dirname(__FILE__)
-     @dataset = DatasetReader.new(
-      (spec_directory + '/testcases/testcase.data'),
-      20, true)
-     @test_decision_tree = DecisionTree.new(@dataset)
+     @dataset = Dataset.new( :data_filename => "./spec/testcases/testcase.data", :testing => true )
+     @test_decision_tree = DecisionTree.new(:dataset => @dataset)
   end
 
   it "should calculate current entropy correctly" do
-    @test_decision_tree.calculate_current_entropy.should == 1
+    @test_decision_tree.calculate_entropy.should == 1
   end
   
   it "should calculate the entropy remainder correctly" do
@@ -28,8 +26,8 @@ describe DecisionTree do
   end
 
   it "should be able to detect when a partition has a uniform outcome" do
-    entries = @dataset_reader.entries
-    none_entries = @test_decision_tree.partition_on_attribute(:patrons, entries)['none']
-    @test_decision_tree.determine_uniformity(none_entries).should_not == nil
+    @test_decision_tree.generate_children
+    children = @test_decision_tree.children
+    children.last.uniform_classes?.should_not == nil
   end
 end
