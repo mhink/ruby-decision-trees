@@ -17,9 +17,8 @@ class DecisionTree
                         :data_filename => args[:data_filename], 
                         :testing       => args[:testing])
     @plurality_value = args[:plurality_value] || determine_plurality_value
-
     
-    #generate_children if not uniform_classes? 
+    generate_children if not uniform_classes? 
   end
 
   def determine_plurality_value
@@ -31,6 +30,9 @@ class DecisionTree
   def generate_children
     current_best_attribute = best_attribute
     partition_on_attribute(current_best_attribute).values.each do |partition|
+      if(current_best_attribute.eql?(:type)) then
+        STDIN.gets
+      end
       my_value = partition.first[:attributes][current_best_attribute]
       remove_attribute(current_best_attribute, partition)
       child_attributes = @dataset.attributes
@@ -51,8 +53,6 @@ class DecisionTree
   
   def uniform_classes?
     @dataset.entries.inject(@dataset.entries.first[:class]) do |memo, entry|
-      puts "memo: #{memo.to_s}"
-      puts "entry[:class] : #{entry[:class].to_s}"
       memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
     end
   end
@@ -72,9 +72,6 @@ class DecisionTree
   end
 
   def calculate_information_gain( attribute )
-    puts "Calculate information gain " + attribute.to_s
-    puts "  " + calculate_entropy.to_s
-    puts "  " + calculate_entropy_remainder(attribute).to_s
     calculate_entropy - calculate_entropy_remainder(attribute)
   end
   
