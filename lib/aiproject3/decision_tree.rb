@@ -12,19 +12,26 @@ class DecisionTree
                         :testing       => args[:testing])
     @plurality_value = args[:plurality_value] || determine_plurality_value
     @parent_id = args[:parent_id]
+
+    @parent_id = "roottree" if @parent_id.nil?
+
     generate_children 
-    puts "Here, we've already generated the root node's children."
-    puts @dataset.entries
+    
+    @children.each do |child_val, child|
+      print @parent_id.to_s + " (" + best_attribute.to_s + ") "
+      if child.is_a?(DecisionTree) then puts child_val + " => " + child.object_id.to_s 
+      else puts child_val.to_s + " => " + child.to_s
+      end
+    end
   end
 
   def determine_plurality_value
-    partition_on_class.inject(0) do |best, partition|
-      best = partition.length if partition.length > best   
-    end
+    partition_on_class.max do |a, b| 
+      a[1].length <=> b[1].length
+    end[0]
   end
-  
+
   def generate_children
-    puts "generate_children"
     current_best_attribute = best_attribute
 
     @dataset.attributes[current_best_attribute].each do |attr_value|
@@ -60,7 +67,7 @@ class DecisionTree
     end
   end
   
-  def uniform_classes?( entries )
+  def uniform_classes?( entries = @dataset.entries)
     entries.inject(entries.first[:class]) do |memo, entry|
       memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
     end

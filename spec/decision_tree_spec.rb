@@ -28,6 +28,6 @@ describe DecisionTree do
   it "should be able to detect when a partition has a uniform outcome" do
     @test_decision_tree.generate_children
     children = @test_decision_tree.children
-    children.last.uniform_classes?.should_not == nil
+    children['none'].uniform_classes?.should_not == nil
   end
 end
