@@ -25,9 +25,4 @@ describe DecisionTree do
     @test_decision_tree.best_attribute.should == :patrons
   end
 
-  it "should be able to detect when a partition has a uniform outcome" do
-    @test_decision_tree.generate_children
-    children = @test_decision_tree.children
-    children['none'].uniform_classes?.should_not == nil
-  end
 end

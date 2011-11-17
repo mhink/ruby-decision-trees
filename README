@@ -6,6 +6,7 @@ Submitted 11-17-2011 by Matt Hink (mrh208)
 1. REQUIREMENTS
 -Developed using Ruby 1.9.2p290 on Xubuntu 11.10
 -Requires 'ruby' and 'rake'
+-It would probably be best to run this on a unix-based system. 
 
 2. DOWNLOADING
   a. Using Git
@@ -15,13 +16,15 @@ Submitted 11-17-2011 by Matt Hink (mrh208)
 
 3. RUNNING
   -Once ruby and rake are installed, run the 'rake' command to compile and run the software.
+  -If for whatever reason this does not work, you can manually run the program by using 'ruby ./lib/aiproject3.rb [PATH_TO_DATASET]'. This may be required to run on Windows systems.
 
 4. NOTES ON rake
-  -The build script for this program automatically fetches the required dataset and saves it in data/car.data.
-  -To run the included test suite, issue 'rake test'.
-  -To run the software against another dataset, issue 'rake exec:alternate [dataset_url]'
-  -To fetch another dataset, issue 'rake fetch_data [dataset_url]'
+  -To run the main program on the assignment dataset (car.data), run "rake exec".
+  -To run the main program on the dataset from the textbook, page 700, fig. 18.3, run "rake exec:test".
+  -To run the included test suite, run 'rake test'.
 
 5. REFERENCES
   -Ruby Language Home: http://www.ruby-lang.org/en/
   -Rake Documentation: http://rake.rubyforge.org
+  -Ruby-Doc.org: http://www.ruby-doc.org
+  -Artificial Intelligence: A Modern Approach, 3rd edition (Russell,Norvig 2010)

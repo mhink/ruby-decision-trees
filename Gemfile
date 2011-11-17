@@ -1,6 +1,4 @@
 source 'http://rubygems.org'
 
-group :test do
-  gem 'rspec'
-  gem 'spork'
-end
+gem 'rspec'
+gem 'rake'

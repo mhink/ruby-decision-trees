@@ -12,9 +12,6 @@ namespace "git" do
 end
 
 namespace "exec" do
-  task :alternate do |t, args|
-    
-  end
   task :default => 'car.data' do
     sh 'ruby ./lib/aiproject3.rb ./data/car.data'
   end
@@ -23,6 +20,7 @@ namespace "exec" do
   end
 
   directory 'data'
+
   file 'car.data' => 'data' do
     sh 'curl archive.ics.uci.edu/ml/machine-learning-databases/car/car.data > data/car.data'
   end
