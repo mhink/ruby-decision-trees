@@ -25,6 +25,17 @@ class DecisionTree
     end
   end
 
+  def matches_tree?( entry )
+    puts "matches_tree? attr: " + best_attribute.to_s
+    eval(STDIN.gets)
+    child = @children[entry[:attributes][best_attribute]]
+    if child.is_a?(DecisionTree) then
+      return child.matches_tree?(entry)
+    else
+      return child.eql?(entry[:class])
+    end
+  end
+
   def determine_plurality_value
     partition_on_class.max do |a, b| 
       a[1].length <=> b[1].length
