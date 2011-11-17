@@ -3,7 +3,7 @@ require 'pp'
 
 class DecisionTree
 
-  attr_reader :children
+  attr_reader :children, :dataset
   
   def initialize ( args ) 
     @children        = {}
@@ -13,6 +13,8 @@ class DecisionTree
     @plurality_value = args[:plurality_value] || determine_plurality_value
     @parent_id = args[:parent_id]
     generate_children 
+    puts "Here, we've already generated the root node's children."
+    puts @dataset.entries
   end
 
   def determine_plurality_value
@@ -22,6 +24,7 @@ class DecisionTree
   end
   
   def generate_children
+    puts "generate_children"
     current_best_attribute = best_attribute
 
     @dataset.attributes[current_best_attribute].each do |attr_value|
@@ -29,10 +32,20 @@ class DecisionTree
     end
     
     partition_on_attribute(current_best_attribute).each do |best_attribute_value, entries|
+      child_entries = []
+
+      entries.each do |entry|
+        entry_attributes = {}
+        entry[:attributes].each do |attribute, value|
+          entry_attributes[attribute] = value.clone
+        end
+        child_entries.push({:attributes => entry_attributes, :class=>entry[:class].clone})
+      end
+
       child_dataset = Dataset.new(
-        :dataset_classes    => @dataset.classes,
-        :dataset_attributes => @dataset.attributes,
-        :dataset_entries    => entries )
+        :dataset_classes    => @dataset.classes.clone,
+        :dataset_attributes => @dataset.attributes.clone,
+        :dataset_entries    => child_entries )
 
       child_dataset.remove_attribute(current_best_attribute)
       

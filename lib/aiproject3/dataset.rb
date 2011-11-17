@@ -38,7 +38,7 @@ class Dataset
     end
   end
 
-  def remove_attribute(attribute)
+  def remove_attribute( attribute )
     @attributes.delete(attribute)
     @entries.each do |entry|
       entry[:attributes].delete(attribute)
@@ -69,11 +69,5 @@ class Dataset
       :type => ['french', 'italian', 'thai', 'burger'], 
       :wait_estimate => ['10', '30', '60', 'more']}
     @classes = ['yes', 'no']
-  end
-
-  def remove_attribute( attribute )
-    @entries.each do |entry|
-      entry[:attributes].delete(attribute)
-    end
   end
 end
