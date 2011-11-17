@@ -28,3 +28,6 @@ Submitted 11-17-2011 by Matt Hink (mrh208)
   -Rake Documentation: http://rake.rubyforge.org
   -Ruby-Doc.org: http://www.ruby-doc.org
   -Artificial Intelligence: A Modern Approach, 3rd edition (Russell,Norvig 2010)
+
+6. NOTES
+  -The accuracy calculations take quite awhile- this is mainly due to Ruby being an interpreted language.  It should only take a few minutes to run the program.
