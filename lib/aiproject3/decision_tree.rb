@@ -6,19 +6,13 @@ class DecisionTree
   attr_reader :children
   
   def initialize ( args ) 
-    puts "(#{args[:parent_id]} => (#{args[:parent_attr]} => #{args[:my_value]})) : #{self.object_id.to_s}"
-    #dataset 
-    #data_filename 
-    #plurality_value 
-    #testing 
-   
-    @children        = []
+    @children        = {}
     @dataset         = args[:dataset] || Dataset.new(
                         :data_filename => args[:data_filename], 
                         :testing       => args[:testing])
     @plurality_value = args[:plurality_value] || determine_plurality_value
-    
-    generate_children if not uniform_classes? 
+    @parent_id = args[:parent_id]
+    generate_children 
   end
 
   def determine_plurality_value
@@ -29,30 +23,32 @@ class DecisionTree
   
   def generate_children
     current_best_attribute = best_attribute
-    partition_on_attribute(current_best_attribute).values.each do |partition|
-      if(current_best_attribute.eql?(:type)) then
-        STDIN.gets
-      end
-      my_value = partition.first[:attributes][current_best_attribute]
-      remove_attribute(current_best_attribute, partition)
-      child_attributes = @dataset.attributes
-      child_attributes.delete(current_best_attribute)
+
+    @dataset.attributes[current_best_attribute].each do |attr_value|
+      children[attr_value] = @plurality_value
+    end
+    
+    partition_on_attribute(current_best_attribute).each do |best_attribute_value, entries|
       child_dataset = Dataset.new(
         :dataset_classes    => @dataset.classes,
-        :dataset_attributes => child_attributes,
-        :dataset_entries    => partition )
-      @children.push(
-        DecisionTree.new(
-          :dataset => child_dataset, 
+        :dataset_attributes => @dataset.attributes,
+        :dataset_entries    => entries )
+
+      child_dataset.remove_attribute(current_best_attribute)
+      
+      if not child_dataset.uniform_class.nil? then
+        children[best_attribute_value] = child_dataset.uniform_class
+      else
+        children[best_attribute_value] = DecisionTree.new(
+          :dataset => child_dataset,
           :plurality_value => @plurality_value,
-          :parent_id => self.object_id.to_s,
-          :parent_attr => current_best_attribute,
-          :my_value => my_value) )
+          :parent_id => self.object_id )
+      end
     end
   end
   
-  def uniform_classes?
-    @dataset.entries.inject(@dataset.entries.first[:class]) do |memo, entry|
+  def uniform_classes?( entries )
+    entries.inject(entries.first[:class]) do |memo, entry|
       memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
     end
   end
@@ -93,12 +89,6 @@ class DecisionTree
       ratio = partition.length.to_f / @dataset.entries.length.to_f
       entropy = calculate_entropy( partition )
       sum += ratio * entropy
-    end
-  end
-  
-  def remove_attribute(attribute, partition)
-    partition.each do |entry|
-      entry[:attributes].delete(attribute)
     end
   end
 end

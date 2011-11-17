@@ -12,6 +12,7 @@ class Dataset
       #load data from file
 
       args[:testing] ? quick_test_attributes_load : quick_attributes_load
+      
       @entries = []
       
       data = File.open(args[:data_filename])
@@ -29,6 +30,19 @@ class Dataset
     @classes    = args[:dataset_classes]    if not args[:dataset_classes].nil?
     @entries    = args[:dataset_entries]    if not args[:dataset_entries].nil?
 
+  end
+
+  def uniform_class
+    @entries.inject(@entries.first[:class]) do |memo, entry|
+      memo.eql?(entry[:class]) ? memo = entry[:class] : memo = nil
+    end
+  end
+
+  def remove_attribute(attribute)
+    @attributes.delete(attribute)
+    @entries.each do |entry|
+      entry[:attributes].delete(attribute)
+    end
   end
 
   def quick_attributes_load

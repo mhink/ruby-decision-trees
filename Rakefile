@@ -16,10 +16,10 @@ namespace "exec" do
     
   end
   task :default => 'car.data' do
-    sh 'ruby ./lib/aiproject3.rb /data/car.data'
+    sh 'ruby ./lib/aiproject3.rb ./data/car.data'
   end
-  task :test_data do
-    sh 'ruby ./lib/aiproject3.rb /spec/testcases/testcase.data'
+  task :test do
+    sh 'ruby ./lib/aiproject3.rb ./spec/testcases/testcase.data test'
   end
 
   directory 'data'
