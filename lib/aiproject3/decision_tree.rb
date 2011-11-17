@@ -26,8 +26,6 @@ class DecisionTree
   end
 
   def matches_tree?( entry )
-    puts "matches_tree? attr: " + best_attribute.to_s
-    eval(STDIN.gets)
     child = @children[entry[:attributes][best_attribute]]
     if child.is_a?(DecisionTree) then
       return child.matches_tree?(entry)
