@@ -1,7 +1,7 @@
-# Assignment 3- Learning Decision Trees
-##CSE 4633- Artificial Intelligence
-###Submitted 11-17-2011 by Matt Hink (mrh208)
-###Mississippi State University
+## Assignment 3- Learning Decision Trees
+####CSE 4633- Artificial Intelligence
+####Submitted 11-17-2011 by Matt Hink (mrh208)
+####Mississippi State University
 
 #####REQUIREMENTS
 - Developed using Ruby 1.9.2p290 on Xubuntu 11.10
