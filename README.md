@@ -1,18 +1,16 @@
-Mississippi State University
-CSE 4633- Artificial Intelligence
-Assignment 3- Learning Decision Trees
-Submitted 11-17-2011 by Matt Hink (mrh208)
+# Assignment 3- Learning Decision Trees
+##CSE 4633- Artificial Intelligence
+###Submitted 11-17-2011 by Matt Hink (mrh208)
+###Mississippi State University
 
 1. REQUIREMENTS
 -Developed using Ruby 1.9.2p290 on Xubuntu 11.10
--Requires 'ruby' and 'rake'
--It would probably be best to run this on a unix-based system. 
 
 2. DOWNLOADING
-  a. Using Git
-    -The public readonly Git repository is available at 'git://github.com/hink1103/Learning-Decision-Trees.git'
-  b. Download
-    -A .zip archive of this project is available at 'https://github.com/hink1103/Learning-Decision-Trees/zipball/master'
+- Using Git
+  The public readonly Git repository is available at 'git://github.com/hink1103/Learning-Decision-Trees.git'
+- Download
+  A .zip archive of this project is available at 'https://github.com/hink1103/Learning-Decision-Trees/zipball/master'
 
 3. RUNNING
   -Once ruby and rake are installed, run the 'rake' command to compile and run the software.
