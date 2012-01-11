@@ -15,6 +15,7 @@ all_percents = training_percents.values.collect do |training_percent|
     shuffled_entries = dataset.entries.shuffle.shuffle.shuffle #just for fun
     training_entries = shuffled_entries.take(training_count)
     testing_entries  = shuffled_entries - training_entries
+    #yo there
     testing_dataset = Dataset.new(
                     :dataset_attributes => dataset.attributes,
                     :dataset_classes    => dataset.classes,
